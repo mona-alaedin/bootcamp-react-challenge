@@ -1,0 +1,19 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 6rem;
+  text-align: center;
+}
+
+body {
+  background-color: #e8e8e8;
+}
+
+tr th {
+  padding: 10px 0;
+}
+
+tr td {
+  padding: 20px 0;
+
+}
