@@ -39,12 +39,12 @@ const projects = [
   {
     _id: 3,
     title: "توسعه سایت شخصی",
-    description: "طراحی سایت شخصی کامل",
+    description: "طراحی سایت شخصی با سئو ",
     status: "CLOSE",
     category: {
       id: 3,
-      title: "برنامه نویسی وب",
-      englishTitle: "web development",
+      title: "بهینه سازی سئو",
+      englishTitle: "seo",
     },
     budget: 3050000,
     tags: ["React", "Nodejs", "online shop"],
@@ -89,6 +89,8 @@ function App() {
   const [show, setShow] = useState(false);
   const [allProjects, setAllProjects] = useState(projects);
   const [active, setActive] = useState("ALL");
+  const [sortType, setSortType] = useState("latest");
+  const [category, setCategory] = useState("");
 
   const handleActive = (activeValue) => {
     setActive(activeValue);
@@ -105,9 +107,30 @@ function App() {
     }
   };
 
-  console.log("render...");
-  console.log(active);
+  const sortHandler = (e) => {
+    setSortType(e.target.value);
+    if (sortType === "latest")
+      setAllProjects(
+        [...projects].sort(
+          (a, b) => new Date(b.deadline) - new Date(a.deadline)
+        )
+      );
+    if (sortType === "earliest")
+      setAllProjects(
+        [...projects].sort(
+          (a, b) => new Date(a.deadline) - new Date(b.deadline)
+        )
+      );
+  };
 
+  const sortCategoryHandler = (e) => {
+    setCategory(e.target.value);
+    console.log(e.target.value);
+    if (e.target.value === "all") return setAllProjects(projects);
+    setAllProjects(
+      projects.filter((c) => c.category.englishTitle === e.target.value)
+    );
+  };
   return (
     <div>
       {show ? (
@@ -116,6 +139,9 @@ function App() {
             status={status}
             active={active}
             setActive={handleActive}
+            projects={projects}
+            onSortType={sortHandler}
+            onSortCategory={sortCategoryHandler}
           />
           <ProjectTable allProjects={allProjects} />
         </>
